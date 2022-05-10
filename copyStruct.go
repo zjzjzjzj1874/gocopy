@@ -82,7 +82,11 @@ func copyStruct(toValue, fromValue reflect.Value, opt *Option) {
 				toFV.Set(reflect.ValueOf(convertValue))
 				toFieldValue.Set(toFV.Addr())
 			} else {
-				toFieldValue.Set(reflect.ValueOf(convertValue))
+				if convertValue == nil {
+					toFieldValue.Set(reflect.Zero(toFieldValue.Type()))
+				} else {
+					toFieldValue.Set(reflect.ValueOf(convertValue))
+				}
 			}
 			continue
 		}
